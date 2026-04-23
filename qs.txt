@@ -1,0 +1,81 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int partition(int a[], int start, int end)
+{
+    int pivot = a[end];
+    int i = start - 1;
+
+    for (int j = start; j <= end - 1; j++)
+    {
+        if (a[j] < pivot)
+        {
+            i++;
+            int t = a[i];
+            a[i] = a[j];
+            a[j] = t;
+        }
+    }
+
+    int t = a[i + 1];
+    a[i + 1] = a[end];
+    a[end] = t;
+
+    return i + 1;
+}
+
+void quick(int a[], int start, int end)
+{
+    if (start < end)
+    {
+        int p = partition(a, start, end);
+        quick(a, start, p - 1);
+        quick(a, p + 1, end);
+    }
+}
+
+void printArr(int a[], int n)
+{
+    for (int i = 0; i < n; i++)
+        printf("%d ", a[i]);
+}
+
+int main()
+{
+    int n, a[1000], k;
+    clock_t st, et;
+    double ts;
+
+    printf("\nEnter how many numbers: ");
+    scanf("%d", &n);
+
+    printf("\nThe random numbers are:\n");
+    for (k = 0; k < n; k++)
+    {
+        a[k] = rand();
+        printf("%d\t", a[k]);
+    }
+
+    st = clock();
+
+    printf("\nBefore sorting array elements are:\n");
+    printArr(a, n);
+
+    quick(a, 0, n - 1);
+
+    printf("\nAfter sorting array elements are:\n");
+    printArr(a, n);
+
+    et = clock();
+
+    ts = (double)(et - st) / CLOCKS_PER_SEC;
+
+    printf("\nSorted numbers are:\n");
+    for (k = 0; k < n; k++)
+        printf("%d\t", a[k]);
+
+    printf("\nThe time taken is %e", ts);
+
+    return 0;
+}

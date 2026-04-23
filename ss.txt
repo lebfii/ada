@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main()
+{
+    int a[10000], i, j, temp, num;
+    clock_t st, et;
+
+    printf("Enter the number to give\n");
+    scanf("%d", &num);
+
+    for (i = 0; i < num; i++)
+    {
+        a[i] = rand() % 10000;
+    }
+
+    printf("Array before sorting\n");
+    for (i = 0; i < num; i++)
+    {
+        printf("%d\t", a[i]);
+    }
+
+    st = clock();
+for (i = 0; i < num - 1; i++)
+{
+int min = i;
+
+for (j = i + 1; j < num; j++)
+{
+if (a[j] < a[min])
+{
+min = j;
+}
+}
+
+if (min != i)
+{
+temp = a[i];
+a[i] = a[min];
+a[min] = temp;
+}
+}
+et = clock();
+
+    printf("\nSelection Sort in C\n");
+    for (i = 0; i < num; i++)
+    {
+        printf("a[%d] = %d\n", i, a[i]);
+    }
+
+    printf("Time taken : %f seconds\n",
+           (double)(et - st) / CLOCKS_PER_SEC);
+
+    return 0;
+}
