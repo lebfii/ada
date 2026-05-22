@@ -1,52 +1,64 @@
 #include<stdio.h>
 
-int main()
-{
-    float w[50],p[50],r[50],cap,total=0,temp;
-    int n,i,j;
+int main() {
+
+    int n, i, j;
+    float w[10], p[10], r[10];
+    float cap, total = 0, temp;
 
     printf("Enter number of items: ");
-    scanf("%d",&n);
+    scanf("%d", &n);
 
-    for(i=0;i<n;i++)
-    {
+    // Input
+    for(i = 0; i < n; i++) {
+
         printf("Enter weight and profit: ");
-        scanf("%f%f",&w[i],&p[i]);
+        scanf("%f %f", &w[i], &p[i]);
 
-        r[i]=p[i]/w[i];
+        r[i] = p[i] / w[i];
     }
 
-    printf("Enter knapsack capacity: ");
-    scanf("%f",&cap);
+    printf("Enter capacity: ");
+    scanf("%f", &cap);
 
-    for(i=0;i<n;i++)
-    {
-        for(j=i+1;j<n;j++)
-        {
-            if(r[i]<r[j])
-            {
-                temp=r[i]; r[i]=r[j]; r[j]=temp;
-                temp=w[i]; w[i]=w[j]; w[j]=temp;
-                temp=p[i]; p[i]=p[j]; p[j]=temp;
+    // Sort by ratio
+    for(i = 0; i < n; i++) {
+
+        for(j = i + 1; j < n; j++) {
+
+            if(r[i] < r[j]) {
+
+                temp = r[i];
+                r[i] = r[j];
+                r[j] = temp;
+
+                temp = w[i];
+                w[i] = w[j];
+                w[j] = temp;
+
+                temp = p[i];
+                p[i] = p[j];
+                p[j] = temp;
             }
         }
     }
 
-    for(i=0;i<n;i++)
-    {
-        if(w[i]<=cap)
-        {
+    // Fill knapsack
+    for(i = 0; i < n; i++) {
+
+        if(w[i] <= cap) {
+
             total += p[i];
             cap -= w[i];
         }
-        else
-        {
-            total += r[i]*cap;
+        else {
+
+            total += r[i] * cap;
             break;
         }
     }
 
-    printf("Maximum value = %.2f",total);
+    printf("Maximum profit = %.2f", total);
 
     return 0;
 }
