@@ -1,0 +1,46 @@
+#include<stdio.h>
+
+#define MAX 4
+#define INF 999
+
+int main() {
+
+    int G[MAX][MAX] = {
+        {0, INF, -3, INF},
+        {5, 0, 4, INF},
+        {INF, INF, 0, 3},
+        {INF, -2, INF, 0}
+    };
+
+    int i, j, k;
+
+    // Floyd Warshall
+    for(k = 0; k < MAX; k++) {
+
+        for(i = 0; i < MAX; i++) {
+
+            for(j = 0; j < MAX; j++) {
+
+                if(G[i][k] + G[k][j] < G[i][j]) {
+
+                    G[i][j] = G[i][k] + G[k][j];
+                }
+            }
+        }
+    }
+
+    // Print shortest paths
+    for(i = 0; i < MAX; i++) {
+
+        for(j = 0; j < MAX; j++) {
+
+            if(i != j) {
+
+                printf("Shortest path %d -> %d = %d\n",
+                       i, j, G[i][j]);
+            }
+        }
+    }
+
+    return 0;
+}

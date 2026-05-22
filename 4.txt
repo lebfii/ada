@@ -1,0 +1,65 @@
+#include<stdio.h>
+
+#define MAX 5
+#define INF 999
+
+int main() {
+
+    int G[MAX][MAX] = {
+        {0, 9, 6, 5, 3},
+        {9, 0, 0, 0, 0},
+        {6, 0, 0, 0, 0},
+        {5, 0, 0, 0, 0},
+        {3, 0, 0, 0, 0}
+    };
+
+    int dist[MAX], visited[MAX] = {0};
+    int i, j, min, u;
+
+    // Initialize distances
+    for(i = 0; i < MAX; i++) {
+
+        dist[i] = INF;
+    }
+
+    dist[0] = 0; // source node
+
+    // Dijkstra
+    for(i = 0; i < MAX - 1; i++) {
+
+        min = INF;
+
+        // Find minimum distance node
+        for(j = 0; j < MAX; j++) {
+
+            if(!visited[j] && dist[j] < min) {
+
+                min = dist[j];
+                u = j;
+            }
+        }
+
+        visited[u] = 1;
+
+        // Update distances
+        for(j = 0; j < MAX; j++) {
+
+            if(G[u][j] && !visited[j]) {
+
+                if(dist[u] + G[u][j] < dist[j]) {
+
+                    dist[j] = dist[u] + G[u][j];
+                }
+            }
+        }
+    }
+
+    printf("Vertex\tDistance\n");
+
+    for(i = 0; i < MAX; i++) {
+
+        printf("%d\t%d\n", i, dist[i]);
+    }
+
+    return 0;
+}

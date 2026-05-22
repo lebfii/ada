@@ -1,0 +1,44 @@
+#include<stdio.h>
+
+int main()
+{
+    int p[5]={3,3,2,5,1};
+    int w[5]={10,15,10,12,8};
+    int used[5]={0};
+
+    int n=5,W=10,cur=W,i,maxi;
+    float total=0;
+
+    while(cur>0)
+    {
+        maxi=-1;
+
+        for(i=0;i<n;i++)
+        {
+            if(!used[i] && (maxi==-1 || (float)w[i]/p[i] > (float)w[maxi]/p[maxi]))
+                maxi=i;
+        }
+
+        used[maxi]=1;
+        cur -= p[maxi];
+
+        if(cur>=0)
+        {
+            total += w[maxi];
+
+            printf("Added object %d completely. Space left: %d\n",
+                   maxi+1,cur);
+        }
+        else
+        {
+            total += (1 + (float)cur/p[maxi]) * w[maxi];
+
+            printf("Added %d%% of object %d\n",
+                   (int)((1 + (float)cur/p[maxi]) * 100),maxi+1);
+        }
+    }
+
+    printf("Total value = %.2f",total);
+
+    return 0;
+}
